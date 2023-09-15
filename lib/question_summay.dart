@@ -11,7 +11,7 @@ class QuestionSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height:300,
+      height: 500,
       child: SingleChildScrollView(
         child: Column(
           children: summaryData.map((data) {
@@ -19,23 +19,53 @@ class QuestionSummary extends StatelessWidget {
             final question = (data['question'] as String?) ?? '';
             final userAnswer = (data['user_answer'] as String?) ?? '';
             final correctAnswer = (data['correct_answer'] as String?) ?? '';
+            final isCorrect = userAnswer == correctAnswer;
 
-            return Row(
-              children: [
-                Text((questionIndex + 1).toString()),
-                Expanded(
-                  child: Column(
-                    children: [
-                      Text(question),
-                      const SizedBox(
-                        height: 5,
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                children: [
+                  Container(
+                    width: 30,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: isCorrect ? Colors.green : Colors.red,
+                    ),
+                    child: Center(
+                      child: Text(
+                        (questionIndex + 1).toString(),
+                        style: TextStyle(color: Colors.white),
                       ),
-                      Text(userAnswer),
-                      Text(correctAnswer),
-                    ],
+                    ),
                   ),
-                ),
-              ],
+                  SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          question,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          userAnswer,
+                          style: TextStyle(
+                            color: isCorrect ? Colors.amber : Colors.white,
+                          ),
+                        ),
+                        Text(
+                          correctAnswer,
+                          style: TextStyle(
+                            color: isCorrect ? Colors.amber : Colors.deepOrange,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             );
           }).toList(),
         ),
